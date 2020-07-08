@@ -1,0 +1,12 @@
+
+:root {
+    --brand-darkest: #191018;
+    --brand-lightest: #f8eeef;
+    --gray-base: #323232;
+    --brand-primary: #695674;
+    --brand-primary--inverted: #fff;
+    --brand-secondary: #6b5575;
+    --brand-secondary--inverted: #00354e;
+    --main-navigation-color: #6a5271;
+    --main-navigation-color--inverted: #f8eeef;
+  }  

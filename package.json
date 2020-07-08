@@ -1,0 +1,8 @@
+
+    {
+      "private": true,
+      "name": "onboarding",
+      "workspaces": ["next-js", "sanity"],
+      "scripts": {}
+    }
+  
