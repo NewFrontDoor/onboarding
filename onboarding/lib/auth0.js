@@ -1,4 +1,4 @@
-import { initAuth0 } from '@auth0/nextjs-auth0'
+import {initAuth0} from '@auth0/nextjs-auth0';
 import {HOST_URL} from './host-url.js';
 
 export default initAuth0({
@@ -6,10 +6,10 @@ export default initAuth0({
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   scope: process.env.NEXT_PUBLIC_AUTH0_SCOPE || 'openid profile email',
   domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
-  redirectUri: `https://${HOST_URL}/api/callback`,
-  postLogoutRedirectUri: `https://${HOST_URL}/`,
+  redirectUri: `${HOST_URL}/api/callback`,
+  postLogoutRedirectUri: `${HOST_URL}/`,
   session: {
     cookieSecret: process.env.SESSION_COOKIE_SECRET,
-    cookieLifetime: Number(process.env.SESSION_COOKIE_LIFETIME) || 7200,
+    cookieLifetime: Number(process.env.SESSION_COOKIE_LIFETIME) || 7200
   }
 });

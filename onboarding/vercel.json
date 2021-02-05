@@ -1,0 +1,12 @@
+{
+    "version": 2,
+    "env": {
+      "HOST_URL": "https://onboarding.newfrontdoor.org/"
+    },
+    "build": {
+      "env": {
+        "HOST_URL": "https://onboarding.newfrontdoor.org/"
+      }
+    }
+  }
+  
