@@ -1,8 +1,67 @@
-
-    {
-      "private": true,
-      "name": "onboarding",
-      "workspaces": ["next-js", "sanity"],
-      "scripts": {}
+{
+  "private": true,
+  "name": "onboarding",
+  "workspaces": [
+    "onboarding-auth0",
+    "sanity"
+  ],
+  "scripts": {},
+  "devDependencies": {
+    "@emotion/eslint-plugin": "^11.0.0",
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "xo": "^0.37.1"
+  },
+  "xo": {
+    "extends": [
+      "xo-react"
+    ],
+    "parser": "babel-eslint",
+    "prettier": true,
+    "space": true,
+    "plugins": [
+      "@emotion"
+    ],
+    "rules": {
+      "emotion/jsx-import": "error",
+      "emotion/no-vanilla": "error",
+      "emotion/import-from-emotion": "error",
+      "emotion/styled-import": "error"
+    },
+    "overrides": [
+      {
+        "files": "**/__tests__/**/*.js",
+        "rules": {
+          "import/no-unassigned-import": [
+            "error",
+            {
+              "allow": [
+                "jest-dom/extend-expect"
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "eslint": {
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
     }
-  
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

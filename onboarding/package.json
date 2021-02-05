@@ -1,0 +1,41 @@
+{
+  "name": "auth0",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@auth0/nextjs-auth0": "^0.16.1",
+    "@chakra-ui/react": "^1.2.1",
+    "@emotion/babel-plugin": "^11.1.2",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
+    "@sanity/block-content-to-react": "^2.0.6",
+    "@sanity/client": "^2.2.6",
+    "@sanity/image-url": "^0.140.12",
+    "auth0": "^2.32.0",
+    "babel-plugin-inline-react-svg": "^1.1.1",
+    "emotion-theming": "^11.0.0",
+    "framer-motion": "^2.9.5",
+    "lodash": "^4.17.15",
+    "md5-hex": "^3.0.1",
+    "next": "latest",
+    "normalize.css": "^8.0.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-dropzone": "^11.3.0",
+    "react-hook-form": "^6.15.1",
+    "react-icons": "^4.1.0",
+    "swr": "^0.4.1"
+  },
+  "devDependencies": {
+    "@hookform/devtools": "^2.2.1",
+    "prop-types": "^15.7.2"
+  }
+}

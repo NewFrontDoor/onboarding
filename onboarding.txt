@@ -1,0 +1,44 @@
+Onboarding tracking tool
+
+We create the 'shell' along with the ministry name, and set an access code.
+
+We invite submission of all content required for onboarding - drag and drop
+
+We provide visual feedback for what's been provided and what is outstanding in a table
+
+
+- Ministry name
+- Ministry logo in various formats
+- Existing or desired url
+
+Design:
+- Style guide
+OR
+- Colour scheme
+- Font choices
+
+3-5 websites they like the look of/taking inspiration from
+
+- Collection of brand assets including images and videos
+
+Office 365
+- Mission statement
+- ABN
+
+Church management system
+- Elvanto
+- Church community builder
+- Other
+
+Personelle
+- Ministers email
+- Delegated church contact for managing IT
+
+Associated accounts/links
+- Facebook
+- Twitter
+- Instagram
+- YouTube
+
+Org chart
+Website site map
