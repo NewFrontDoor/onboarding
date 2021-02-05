@@ -74,7 +74,7 @@ const MenuLinks = ({user, isOpen, items}) => {
         ) : (
           <MenuItem to="/api/login">Log in</MenuItem>
         )}
-        <MenuItem isLast to="/signup">
+        <MenuItem isLast to="/api/signup">
           <Button
             size="sm"
             rounded="md"
