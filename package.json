@@ -2,7 +2,7 @@
   "private": true,
   "name": "onboarding",
   "workspaces": [
-    "onboarding-auth0",
+    "onboarding",
     "sanity"
   ],
   "scripts": {},
