@@ -6,8 +6,8 @@ export default initAuth0({
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   scope: process.env.NEXT_PUBLIC_AUTH0_SCOPE || 'openid profile email',
   domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
-  redirectUri: `${HOST_URL}/api/callback`,
-  postLogoutRedirectUri: `${HOST_URL}/`,
+  redirectUri: `https://${HOST_URL}/api/callback`,
+  postLogoutRedirectUri: `https://${HOST_URL}/`,
   session: {
     cookieSecret: process.env.SESSION_COOKIE_SECRET,
     cookieLifetime: Number(process.env.SESSION_COOKIE_LIFETIME) || 7200,
