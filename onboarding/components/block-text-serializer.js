@@ -1,7 +1,7 @@
 import BlockContent from '@sanity/block-content-to-react';
 import {Box, Image} from '@chakra-ui/react';
 import Link from './link.js';
-import urlFor from '../lib/sanityImg.js';
+import urlFor from '../lib/sanity-img.js';
 // Import {Form, validation} from '@newfrontdoor/form';
 import PropTypes from 'prop-types';
 
