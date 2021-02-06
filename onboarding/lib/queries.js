@@ -29,21 +29,6 @@ const menuQuery = `
 }
 `;
 
-const footerQuery = `
-*[_type == "main"][0] {
-  footermenu[]{
-    _key,
-    text,
-    ...childpages-> {
-      slug,
-      _key
-    }
-  },
-  tagline,
-  sociallinks
-}
-`;
-
 const pageQuery = (slug) => `
 *['${slug}' match slug.current][0] {
   ...,

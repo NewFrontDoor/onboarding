@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Flex,
   Spacer,
@@ -13,20 +12,13 @@ import {
   AccordionPanel
 } from '@chakra-ui/react';
 import {useFieldArray, useFormContext} from 'react-hook-form';
-import FieldArray from './fieldArray';
+import FieldArray from './field-array.js';
 import {MdDelete} from 'react-icons/md';
-import FileInput from './fileInput';
-import AccordionTop from './accordion-top';
+import FileInput from './file-input.js';
+import AccordionTop from './accordion-top.js';
 
 const DesignDetails = () => {
-  const {
-    register,
-    unregister,
-    errors,
-    setValue,
-    watch,
-    control
-  } = useFormContext();
+  const {register, errors, control} = useFormContext();
   const {fields, append, remove} = useFieldArray({
     control,
     name: 'colour_scheme'
@@ -49,8 +41,8 @@ const DesignDetails = () => {
                   in SVG format
                 </li>
                 <li>
-                  N.b. if you don't have an SVG version, contact your graphic
-                  designer and they will produce one for you. If this isn't
+                  N.b. if you don‘t have an SVG version, contact your graphic
+                  designer and they will produce one for you. If this isn‘t
                   possible, upload a png or jpg in the highest possible quality
                   and size.
                 </li>
@@ -84,7 +76,7 @@ const DesignDetails = () => {
             Item={({item, remove, index}) => (
               <Flex key={item.id} justify="flex-start">
                 <InputGroup w="50">
-                  <InputLeftAddon children="#" />
+                  <InputLeftAddon>#</InputLeftAddon>
                   <Input
                     ref={register()}
                     type="text"

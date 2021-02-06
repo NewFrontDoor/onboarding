@@ -19,7 +19,7 @@ export default {
       }
     },
     {
-      name: 'authorised_accounts',
+      name: 'authorisedAccounts',
       title: 'Authorised accounts',
       type: 'array',
       of: [{type: 'string'}]
@@ -146,6 +146,6 @@ export default {
       name: 'org_chart',
       title: 'Organisation chart',
       type: 'file'
-    },
+    }
   ]
 };

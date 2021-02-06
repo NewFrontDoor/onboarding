@@ -24,10 +24,14 @@
       "@emotion"
     ],
     "rules": {
-      "emotion/jsx-import": "error",
-      "emotion/no-vanilla": "error",
-      "emotion/import-from-emotion": "error",
-      "emotion/styled-import": "error"
+      "emotion/jsx-import": "off",
+      "emotion/no-vanilla": "off",
+      "emotion/import-from-emotion": "off",
+      "emotion/styled-import": "off",
+      "no-unsafe-optional-chaining": "off",
+      "no-nonoctal-decimal-escape": "off",
+      "unicorn/no-reduce": "off",
+      "react/react-in-jsx-scope": "off"
     },
     "overrides": [
       {

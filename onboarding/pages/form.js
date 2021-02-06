@@ -1,5 +1,4 @@
-import React from 'react';
-import {findOrCreate, useFetchUser} from '../lib/user.js';
+import {findOrCreate} from '../lib/user.js';
 import auth0 from '../lib/auth0.js';
 import Layout from '../components/master-layout.js';
 import {menuQuery, formQuery} from '../lib/queries.js';
@@ -55,7 +54,7 @@ export async function getServerSideProps({req, res, query}) {
 
   if (
     results.mainData.owner !== session.user.email &&
-    results.mainData.authorised_accounts.includes(session.user.email) !== true
+    results.mainData.authorisedAccounts.includes(session.user.email) !== true
   ) {
     return {
       notFound: true

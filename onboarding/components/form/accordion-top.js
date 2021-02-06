@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import {
   AccordionButton,
   Flex,
@@ -24,7 +24,7 @@ const AccordionTop = ({percent, children}) => {
       : 'black.100';
 
   return (
-    <AccordionButton _expanded={{ color: "green" }}>
+    <AccordionButton _expanded={{color: 'green'}}>
       <Flex justify="space-between" w="100%">
         <Box>
           <Heading textStyle="h2" d="inline-block">
@@ -38,6 +38,11 @@ const AccordionTop = ({percent, children}) => {
       </Flex>
     </AccordionButton>
   );
+};
+
+AccordionTop.propTypes = {
+  children: PropTypes.any,
+  percent: PropTypes.number
 };
 
 export default AccordionTop;

@@ -1,7 +1,8 @@
-import React, {useCallback, useState, useMemo, useEffect} from 'react';
+import PropTypes from 'prop-types';
+import {useCallback, useMemo, useEffect} from 'react';
 import {useDropzone} from 'react-dropzone';
-import {useFormContext, getValues} from 'react-hook-form';
-import {FormLabel, Heading} from '@chakra-ui/react';
+import {useFormContext} from 'react-hook-form';
+import {FormLabel} from '@chakra-ui/react';
 import {MdDelete} from 'react-icons/md';
 
 const baseStyle = {
@@ -82,7 +83,7 @@ const FileInput = (props) => {
       ];
       setValue(name, concatenatedFileList, {shouldValidate: true});
     },
-    [setValue, name]
+    [setValue, getValues, name]
   );
 
   const imageThumbs =
@@ -103,13 +104,15 @@ const FileInput = (props) => {
     ));
 
   const fileThumbs = (
-    <ul>{files && files.map((file) => <li>{file.name}</li>)}</ul>
+    <ul>
+      {files && files.map((file) => <li key={file.name}>{file.name}</li>)}
+    </ul>
   );
 
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
-      files && files.forEach((file) => URL.revokeObjectURL(file.preview));
+      if (files) files.forEach((file) => URL.revokeObjectURL(file.preview));
     },
     [files]
   );
@@ -162,6 +165,16 @@ const FileInput = (props) => {
       </aside>
     </>
   );
+};
+
+FileInput.propTypes = {
+  accept: PropTypes.shape({
+    includes: PropTypes.func
+  }),
+  description: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string,
+  text: PropTypes.string
 };
 
 export default FileInput;

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {
   FormControl,
   FormLabel,
@@ -6,19 +6,11 @@ import {
   Textarea
 } from '@chakra-ui/react';
 import {useFormContext} from 'react-hook-form';
-import AccordionTop from './accordion-top';
-
+import AccordionTop from './accordion-top.js';
 
 const DesignDetails = () => {
   const [percent, setPercent] = useState(0);
-  const {
-    register,
-    unregister,
-    errors,
-    setValue,
-    watch,
-    control
-  } = useFormContext();
+  const {register, errors, watch} = useFormContext();
 
   const wfields = watch(['website_purpose', 'website_audience']);
 
@@ -29,7 +21,9 @@ const DesignDetails = () => {
 
   return (
     <div>
-      <AccordionTop percent={percent}>Website purpose and target audience</AccordionTop>
+      <AccordionTop percent={percent}>
+        Website purpose and target audience
+      </AccordionTop>
       <AccordionPanel pb={4}>
         <FormControl isInvalid={errors.name}>
           <FormLabel>Purpose of website</FormLabel>

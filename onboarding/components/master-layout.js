@@ -1,10 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import NavBar from './header/header';
+import NavBar from './header/header.js';
 import Head from 'next/head';
 import {Box} from '@chakra-ui/react';
 
-const Layout = ({mainData, menuData, user, loading = false, children}) => {
+const Layout = ({mainData, menuData, user, children}) => {
   return (
     <div>
       <Head>
@@ -49,8 +48,12 @@ const Layout = ({mainData, menuData, user, loading = false, children}) => {
 };
 
 Layout.propTypes = {
+  children: PropTypes.node.isRequired,
   mainData: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired
+  menuData: PropTypes.shape({
+    menuitems: PropTypes.arrayOf(PropTypes.object)
+  }),
+  user: PropTypes.any
 };
 
 export default Layout;

@@ -1,9 +1,9 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import {useForm, FormProvider} from 'react-hook-form';
-import CoreDetails from './coreDetails.js';
-import ContentDetails from './contentDetails.js';
-import DesignDetails from './designDetails.js';
-import AdminDetails from './adminDetails.js';
+import CoreDetails from './core-details.js';
+import ContentDetails from './content-details.js';
+import DesignDetails from './design-details.js';
+import AdminDetails from './admin-details.js';
 import Purpose from './purpose.js';
 import ControlBox from './control-box.js';
 import {Input, Accordion, AccordionItem} from '@chakra-ui/react';
@@ -41,7 +41,7 @@ const FormComponent = ({sanityData}) => {
         </Accordion>
         <ControlBox
           isOwner={sanityData.isOwner}
-          editors={sanityData.authorised_accounts}
+          editors={sanityData.authorisedAccounts}
         />
         <Input type="submit" />
       </form>
@@ -49,6 +49,13 @@ const FormComponent = ({sanityData}) => {
       <DevTool control={methods.control} />
     </FormProvider>
   );
+};
+
+FormComponent.propTypes = {
+  sanityData: PropTypes.shape({
+    authorisedAccounts: PropTypes.arrayOf(PropTypes.string),
+    isOwner: PropTypes.any
+  })
 };
 
 export default FormComponent;

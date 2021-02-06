@@ -1,4 +1,3 @@
-import React from 'react';
 import Layout from '../components/master-layout.js';
 import {menuQuery, pageQuery} from '../lib/queries.js';
 import SanityBlock from '../components/block-text-serializer.js';

@@ -1,12 +1,9 @@
-
-import React from 'react';
 import BlockContent from '@sanity/block-content-to-react';
 import {Box, Image} from '@chakra-ui/react';
-import Link from './link';
-import urlFor from '../lib/sanityImg';
-// import {Form, validation} from '@newfrontdoor/form';
+import Link from './link.js';
+import urlFor from '../lib/sanityImg.js';
+// Import {Form, validation} from '@newfrontdoor/form';
 import PropTypes from 'prop-types';
-import {submitForm} from '../lib/sanity-fns';
 
 const CustomStyleSerializer = ({children}) => {
   return <Box textStyle="p">{children}</Box>;
@@ -44,7 +41,7 @@ ImageSerializer.propTypes = {
 };
 
 /*
-const FormSerializer = ({node}) => {
+Const FormSerializer = ({node}) => {
   return (
     <Form
       {...node}
@@ -89,10 +86,19 @@ const InlineButtonSerializer = ({children, mark}) => {
   }
 
   return (
-    <Link link={link} sx={{marginLeft: '10px'}} link={link}>
+    <Link link={link} sx={{marginLeft: '10px'}}>
       {action}
     </Link>
   );
+};
+
+InlineButtonSerializer.propTypes = {
+  children: PropTypes.any,
+  mark: PropTypes.shape({
+    action: PropTypes.any,
+    link: PropTypes.string,
+    style: PropTypes.string
+  })
 };
 
 const ButtonSerializer = ({node}) => {
@@ -106,6 +112,14 @@ const ButtonSerializer = ({node}) => {
   }
 
   return <Link link={link}>{action}</Link>;
+};
+
+ButtonSerializer.propTypes = {
+  node: PropTypes.shape({
+    action: PropTypes.any,
+    link: PropTypes.string,
+    style: PropTypes.string
+  })
 };
 
 InternalLinkSerializer.propTypes = {
@@ -122,7 +136,7 @@ ExternalLinkSerializer.propTypes = {
   }).isRequired
 };
 
-const BlockRenderer = props => {
+const BlockRenderer = (props) => {
   const style = props.node.style || 'normal';
 
   const elements = {
@@ -131,7 +145,7 @@ const BlockRenderer = props => {
     h3: <Box textStyle="h3">{props.children}</Box>,
     h4: <Box textStyle="h4">{props.children}</Box>,
     h5: <Box textStyle="h5">{props.children}</Box>,
-    h6: <Box textStyle="h6">{props.children}</Box>,
+    h6: <Box textStyle="h6">{props.children}</Box>
   };
 
   if (/^h\d/.test(style)) return elements[style];
@@ -161,7 +175,7 @@ const BlockText = ({blocks}) => {
         types: {
           block: BlockRenderer,
           p: CustomStyleSerializer,
-          //form: FormSerializer,
+          // Form: FormSerializer,
           image: ImageSerializer,
           button: ButtonSerializer,
           inlineButton: ButtonSerializer

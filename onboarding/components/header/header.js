@@ -1,22 +1,33 @@
-import React from 'react';
+import {useState} from 'react';
+import PropTypes from 'prop-types';
 import {ReactComponent as Logo} from '../../public/logo-horizontal.svg';
 import {Box, Flex, Button, Stack} from '@chakra-ui/react';
-import MenuItem from './menuitem';
+import MenuItem from './menuitem.js';
+import Link from 'next/link';
 
 const NavBar = ({user, ...props}) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <NavBarContainer {...props}>
       <Box w="300px">
-        <Logo />
+        <Link passHref href="/">
+          <a>
+            <Logo />
+          </a>
+        </Link>
       </Box>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks user={user} isOpen={isOpen} items={props.items} />
     </NavBarContainer>
   );
+};
+
+NavBar.propTypes = {
+  user: PropTypes.object,
+  items: PropTypes.array
 };
 
 const CloseIcon = () => (
@@ -47,6 +58,11 @@ const MenuToggle = ({toggle, isOpen}) => {
       {isOpen ? <CloseIcon /> : <MenuIcon />}
     </Box>
   );
+};
+
+MenuToggle.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired
 };
 
 const MenuLinks = ({user, isOpen, items}) => {
@@ -92,6 +108,14 @@ const MenuLinks = ({user, isOpen, items}) => {
   );
 };
 
+MenuLinks.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  items: PropTypes.shape({
+    map: PropTypes.func
+  }),
+  user: PropTypes.object
+};
+
 const NavBarContainer = ({children, ...props}) => {
   return (
     <Flex
@@ -107,6 +131,10 @@ const NavBarContainer = ({children, ...props}) => {
       {children}
     </Flex>
   );
+};
+
+NavBarContainer.propTypes = {
+  children: PropTypes.node
 };
 
 export default NavBar;

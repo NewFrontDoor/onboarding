@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import auth0 from '../lib/auth0.js';
-import React from 'react';
 import Layout from '../components/master-layout.js';
 import ProjectPreview from '../components/project-preview.js';
 import {menuQuery} from '../lib/queries.js';
@@ -23,7 +23,7 @@ const Account = ({user, userData, menuData}) => {
           ))}
         </Grid>
       ) : (
-        <Text>You do not own any projects. Start one now.</Text>
+        <Text>You don‘t own any projects. Start one now.</Text>
       )}
       <Heading as="h2" size="xl">
         Projects I contribute to
@@ -36,13 +36,22 @@ const Account = ({user, userData, menuData}) => {
         </Grid>
       ) : (
         <Text>
-          You aren't listed as a contributor on any projects yet. Ask the
+          You aren‘t listed as a contributor on any projects yet. Ask the
           project owner to add your email to the list of contributors to get
           going.
         </Text>
       )}
     </Layout>
   );
+};
+
+Account.propTypes = {
+  menuData: PropTypes.object,
+  user: PropTypes.object,
+  userData: PropTypes.shape({
+    contributor: PropTypes.arrayOf(PropTypes.string),
+    owner: PropTypes.arrayOf(PropTypes.string)
+  })
 };
 
 export async function getServerSideProps({req, res}) {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useFieldArray, useFormContext} from 'react-hook-form';
 import {
   FormControl,
@@ -11,22 +11,14 @@ import {
   AccordionPanel
 } from '@chakra-ui/react';
 import {MdDelete} from 'react-icons/md';
-import FileInput from './fileInput';
-import FieldArray from './fieldArray';
-import AccordionTop from './accordion-top';
+import FileInput from './file-input.js';
+import FieldArray from './field-array.js';
+import AccordionTop from './accordion-top.js';
 
 const ContentDetails = () => {
+  const [percent, setPercent] = useState();
 
-  const [percent, setPercent] = useState()
-
-  const {
-    register,
-    unregister,
-    errors,
-    setValue,
-    watch,
-    control
-  } = useFormContext();
+  const {register, errors, watch, control} = useFormContext();
   const {fields, append, remove} = useFieldArray({
     control,
     name: 'socials'
@@ -54,7 +46,7 @@ const ContentDetails = () => {
               <p>
                 Upload a document outlining your website structure. Could be a
                 mindmap, a spreadsheet, a photo of the back of a napkin. It
-                doesn't have to be complete, just make a start.
+                doesn‘t have to be complete, just make a start.
               </p>
             }
           />

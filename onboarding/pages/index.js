@@ -1,4 +1,3 @@
-import React from 'react';
 import {Box} from '@chakra-ui/react';
 import Layout from '../components/master-layout.js';
 import {mainQuery, menuQuery} from '../lib/queries.js';

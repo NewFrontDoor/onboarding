@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import isEmpty from 'lodash/isEmpty';
 import md5Hex from 'md5-hex';
-import client, {fetchQuery} from './sanity';
+import client, {fetchQuery} from './sanity.js';
 
 export async function fetchUser(cookie = '') {
   if (typeof window !== 'undefined' && window.__user) {
@@ -85,7 +85,7 @@ export async function findOrCreate(user) {
       name,
       email,
       "owner": *[ _type == "project" && $email == owner ],
-      "contributor": *[ _type == "project" && $email in authorised_accounts ]
+      "contributor": *[ _type == "project" && $email in authorisedAccounts ]
   }`,
     {email: user.email}
   );

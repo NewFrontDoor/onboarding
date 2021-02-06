@@ -7,7 +7,6 @@ import {
   InputGroup,
   InputRightAddon,
   IconButton,
-  Select,
   SimpleGrid,
   AccordionPanel
 } from '@chakra-ui/react';
@@ -20,15 +19,7 @@ import AccordionTop from './accordion-top.js';
 const AdminDetails = () => {
   const [percent, setPercent] = useState();
 
-  const {
-    register,
-    unregister,
-    errors,
-    setValue,
-    getValues,
-    watch,
-    control
-  } = useFormContext();
+  const {register, errors, getValues, watch} = useFormContext();
 
   const site = getValues('website_url')?.replace('www.', '') || 'example.com';
 

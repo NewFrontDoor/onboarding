@@ -1,5 +1,5 @@
 import imageUrlBuilder from '@sanity/image-url';
-import myConfiguredSanityClient from './sanity';
+import myConfiguredSanityClient from './sanity.js';
 
 // Get a pre-configured url-builder from your sanity client
 const builder = imageUrlBuilder(myConfiguredSanityClient);
