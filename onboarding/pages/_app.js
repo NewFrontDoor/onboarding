@@ -24,7 +24,7 @@ class MyApp extends App {
   render() {
     const {Component, pageProps} = this.props;
     return (
-      <ChakraProvider theme={cktheme}>
+      <ChakraProvider>
         <Component {...pageProps} />
       </ChakraProvider>
     );

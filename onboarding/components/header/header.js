@@ -110,9 +110,7 @@ const MenuLinks = ({user, isOpen, items}) => {
 
 MenuLinks.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  items: PropTypes.shape({
-    map: PropTypes.func
-  }),
+  items: PropTypes.arrayOf(PropTypes.object),
   user: PropTypes.object
 };
 

@@ -14,7 +14,7 @@ const MenuItem = ({children, isLast, to = '/', ...rest}) => {
 };
 
 MenuItem.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   isLast: PropTypes.bool,
   to: PropTypes.string
 };

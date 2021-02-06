@@ -50,7 +50,7 @@ Account.propTypes = {
   user: PropTypes.object,
   userData: PropTypes.shape({
     contributor: PropTypes.arrayOf(PropTypes.string),
-    owner: PropTypes.arrayOf(PropTypes.string)
+    owner: PropTypes.arrayOf(PropTypes.object)
   })
 };
 
