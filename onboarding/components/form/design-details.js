@@ -1,10 +1,7 @@
 import {
-  Flex,
-  Spacer,
   FormControl,
   IconButton,
   FormLabel,
-  Select,
   Input,
   InputLeftAddon,
   InputRightElement,
@@ -12,9 +9,10 @@ import {
   AccordionPanel
 } from '@chakra-ui/react';
 import {useFieldArray, useFormContext} from 'react-hook-form';
-import FieldArray from './field-array.js';
 import {MdDelete} from 'react-icons/md';
 import FileInput from './file-input.js';
+import FontChoices from './font-choices.js';
+import ColourChoices from './colour-choices.js';
 import AccordionTop from './accordion-top.js';
 
 const DesignDetails = () => {
@@ -27,7 +25,7 @@ const DesignDetails = () => {
     <div>
       <AccordionTop percent={95}>Design and images</AccordionTop>
       <AccordionPanel pb={4}>
-        <FormControl isInvalid={errors.name}>
+        <FormControl isInvalid={errors.name} variant="project">
           <FileInput
             multiple
             accept="image/png, image/jpg, image/jpeg, image/svg"
@@ -50,7 +48,7 @@ const DesignDetails = () => {
             }
           />
         </FormControl>
-        <FormControl isInvalid={errors.name}>
+        <FormControl isInvalid={errors.name} variant="project">
           <FileInput
             multiple
             accept="application/pdf, application/zip"
@@ -59,7 +57,7 @@ const DesignDetails = () => {
             label="Style guide"
           />
         </FormControl>
-        <FormControl isInvalid={errors.name}>
+        <FormControl isInvalid={errors.name} variant="project">
           <FileInput
             multiple
             accept="image/png, image/jpg, image/jpeg, image/svg"
@@ -68,51 +66,9 @@ const DesignDetails = () => {
             label="Additional brand assets, photographs, illustrations"
           />
         </FormControl>
-        <FormControl isInvalid={errors.name}>
-          <FormLabel>Colour Scheme</FormLabel>
-          <FieldArray
-            identifier="colour_scheme"
-            add="Add a colour"
-            Item={({item, remove, index}) => (
-              <Flex key={item.id} justify="flex-start">
-                <InputGroup w="50">
-                  <InputLeftAddon>#</InputLeftAddon>
-                  <Input
-                    ref={register()}
-                    type="text"
-                    borderLeftRadius="0"
-                    name={`items[${index}].colour_code`}
-                  />
-                </InputGroup>
-                <Spacer />
-                <Select
-                  ref={register()}
-                  w="60"
-                  name={`items[${index}].colour_role`}
-                >
-                  <option selected value="primary">
-                    Primary
-                  </option>
-                  <option value="secondary">Secondary</option>
-                  <option value="highlight">Highlight</option>
-                  <option value="lowlight">Lowlight</option>
-                  <option value="text">Text</option>
-                </Select>
-                <Spacer />
-                <IconButton
-                  icon={<MdDelete />}
-                  name="remove"
-                  onClick={() => remove(index)}
-                />
-              </Flex>
-            )}
-          />
-        </FormControl>
-        <FormControl isInvalid={errors.name}>
-          <FormLabel>Font choices</FormLabel>
-          <Input ref={register} name="font_choices" />
-        </FormControl>
-        <FormControl isInvalid={errors.name}>
+        <ColourChoices />
+        <FontChoices />
+        <FormControl isInvalid={errors.name} variant="project">
           <FormLabel>Reference websites</FormLabel>
           {fields.map(({id, url_value}, index) => {
             return (

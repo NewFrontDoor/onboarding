@@ -2,7 +2,7 @@ import App from 'next/app';
 import PropTypes from 'prop-types';
 import {ChakraProvider, extendTheme} from '@chakra-ui/react';
 
-import theme from '../theme';
+import theme from '../theme/index.js';
 
 const cktheme = extendTheme(theme);
 
@@ -24,7 +24,7 @@ class MyApp extends App {
   render() {
     const {Component, pageProps} = this.props;
     return (
-      <ChakraProvider>
+      <ChakraProvider theme={cktheme}>
         <Component {...pageProps} />
       </ChakraProvider>
     );

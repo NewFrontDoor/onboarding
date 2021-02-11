@@ -24,16 +24,18 @@ const AccordionTop = ({percent, children}) => {
       : 'black.100';
 
   return (
-    <AccordionButton _expanded={{color: 'green'}}>
+    <AccordionButton>
       <Flex justify="space-between" w="100%">
         <Box>
-          <Heading textStyle="h2" d="inline-block">
+          <Heading size="lg" as="h2" d="inline-block">
             {children}
           </Heading>
           <AccordionIcon css={{verticalAlign: 'text-bottom'}} />
         </Box>
         <CircularProgress value={percent} color={color} thickness="18px">
-          <CircularProgressLabel>{percent.toFixed(0)}%</CircularProgressLabel>
+          <CircularProgressLabel color="black">
+            {percent.toFixed(0)}%
+          </CircularProgressLabel>
         </CircularProgress>
       </Flex>
     </AccordionButton>

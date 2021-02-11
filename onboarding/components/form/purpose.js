@@ -25,12 +25,12 @@ const DesignDetails = () => {
         Website purpose and target audience
       </AccordionTop>
       <AccordionPanel pb={4}>
-        <FormControl isInvalid={errors.name}>
-          <FormLabel>Purpose of website</FormLabel>
+        <FormControl isInvalid={errors.name} variant="project">
+          <FormLabel>Purpose/aim of website</FormLabel>
           <Textarea ref={register} name="website_purpose" />
         </FormControl>
-        <FormControl isInvalid={errors.name}>
-          <FormLabel>Target audience</FormLabel>
+        <FormControl isInvalid={errors.name} variant="project">
+          <FormLabel>Target audience/demographic</FormLabel>
           <Textarea ref={register} name="website_audience" />
         </FormControl>
       </AccordionPanel>

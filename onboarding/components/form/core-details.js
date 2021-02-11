@@ -9,21 +9,16 @@ import {
   Grid,
   GridItem,
   Tooltip,
-  AccordionPanel
+  AccordionPanel,
+  NumberInput,
+  NumberInputField
 } from '@chakra-ui/react';
 import {useFormContext} from 'react-hook-form';
 import {MdInfo} from 'react-icons/md';
-import AccordionTop from './accordion-top';
+import AccordionTop from './accordion-top.js';
 
 const CoreDetails = () => {
-  const {
-    register,
-    unregister,
-    errors,
-    setValue,
-    watch,
-    control
-  } = useFormContext();
+  const {register, errors, watch} = useFormContext();
 
   const [percent, setPercent] = useState();
 
@@ -47,13 +42,13 @@ const CoreDetails = () => {
       <AccordionPanel pb={4}>
         <Grid templateColumns="2fr 1fr 1fr 2fr" gap={6}>
           <GridItem colSpan={3}>
-            <FormControl isInvalid={errors.name}>
+            <FormControl isInvalid={errors.name} variant="project">
               <FormLabel>Ministry name</FormLabel>
               <Input ref={register} name="ministry" />
             </FormControl>
           </GridItem>
           <GridItem colSpan={1}>
-            <FormControl isInvalid={errors.name}>
+            <FormControl isInvalid={errors.name} variant="project">
               <Tooltip
                 shouldWrapChildren
                 label="For not-for-profit product registration purposes"
@@ -68,11 +63,13 @@ const CoreDetails = () => {
                   />
                 </FormLabel>
               </Tooltip>
-              <Input ref={register} name="abn" />
+              <NumberInput>
+                <NumberInputField ref={register} name="abn" />
+              </NumberInput>
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
-            <FormControl isInvalid={errors.name}>
+            <FormControl isInvalid={errors.name} variant="project">
               <Tooltip
                 shouldWrapChildren
                 label="The staff member empowered to make website decisions"
@@ -91,7 +88,7 @@ const CoreDetails = () => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
-            <FormControl isInvalid={errors.name}>
+            <FormControl isInvalid={errors.name} variant="project">
               <Tooltip
                 shouldWrapChildren
                 label="A church administrator or volunteer who will upload content to the
@@ -111,7 +108,7 @@ const CoreDetails = () => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={4}>
-            <FormControl isInvalid={errors.name}>
+            <FormControl isInvalid={errors.name} variant="project">
               <Tooltip
                 shouldWrapChildren
                 label="For not-for-profit product registration purposes"
@@ -130,7 +127,7 @@ const CoreDetails = () => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={4}>
-            <FormControl isInvalid={errors.name}>
+            <FormControl isInvalid={errors.name} variant="project">
               <FormLabel>Website URL</FormLabel>
               <p>
                 Put in the URL you'd like to register or the one you'll continue

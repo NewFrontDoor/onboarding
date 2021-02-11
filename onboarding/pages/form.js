@@ -52,6 +52,8 @@ export async function getServerSideProps({req, res, query}) {
     };
   }
 
+  console.log(results.mainData);
+
   if (
     results.mainData.owner !== session.user.email &&
     results.mainData.authorisedAccounts.includes(session.user.email) !== true
@@ -61,7 +63,7 @@ export async function getServerSideProps({req, res, query}) {
     };
   }
 
-  const newMainData = (({owner, ...o}) => o)(results.mainData);
+  const newMainData = {...results.mainData}; // (({owner, ...o}) => o)(results.mainData);
   newMainData.isOwner = results.mainData.owner === session.user.email;
 
   return {

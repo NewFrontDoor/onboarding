@@ -35,7 +35,7 @@ const ContentDetails = () => {
     <div>
       <AccordionTop percent={percent || 0}>Content details</AccordionTop>
       <AccordionPanel pb={4}>
-        <FormControl isInvalid={errors.name}>
+        <FormControl isInvalid={errors.name} variant="project">
           <FileInput
             multiple
             accept="application/pdf, application/doc, application/xlsx"
@@ -51,7 +51,7 @@ const ContentDetails = () => {
             }
           />
         </FormControl>
-        <FormControl isInvalid={errors.name}>
+        <FormControl isInvalid={errors.name} variant="project">
           <FormLabel>Social media URLs</FormLabel>
           <FieldArray
             identifier="social_media"

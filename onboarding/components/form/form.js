@@ -8,10 +8,25 @@ import Purpose from './purpose.js';
 import ControlBox from './control-box.js';
 import {Input, Accordion, AccordionItem} from '@chakra-ui/react';
 import {DevTool} from '@hookform/devtools';
+import {submitForm} from '../../lib/sanity-fns.js';
 
 const FormComponent = ({sanityData}) => {
   console.log(sanityData);
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    const merged = {
+      slug: sanityData.slug,
+      owner: sanityData.owner,
+      _id: sanityData._id,
+      _createdAt: sanityData._createdAt,
+      _type: sanityData._type,
+      ...data,
+      abn: Number.parseInt(data.abn, 10),
+      font_choices: data.font_choices.split(', ')
+    };
+    console.log(merged);
+    submitForm(merged);
+  };
+
   const methods = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -19,10 +34,12 @@ const FormComponent = ({sanityData}) => {
     }
   });
 
+  const {reset, formState, handleSubmit, control} = methods;
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Accordion defaultIndex={[0]}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Accordion allowMultiple defaultIndex={[0, 1, 2, 3, 4]}>
           <AccordionItem>
             <CoreDetails />
           </AccordionItem>
@@ -42,11 +59,13 @@ const FormComponent = ({sanityData}) => {
         <ControlBox
           isOwner={sanityData.isOwner}
           editors={sanityData.authorisedAccounts}
+          formState={formState}
+          reset={reset}
+          initialData={sanityData}
         />
-        <Input type="submit" />
       </form>
 
-      <DevTool control={methods.control} />
+      <DevTool control={control} />
     </FormProvider>
   );
 };

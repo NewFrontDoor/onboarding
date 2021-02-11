@@ -16,32 +16,12 @@ export function blocksToText(blocks, options_ = {}) {
 }
 
 export function submitForm(values) {
-  const inputs = {
-    targetEmail: 'support@newfrontdoor.org',
-    message: values
-  };
-
   fetch('/api/submit', { 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(values)
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-
-  fetch('/api/send', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(inputs)
   })
     .then((response) => response.json())
     .then((data) => {

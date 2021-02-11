@@ -1,14 +1,16 @@
 export default {
-  styles: {
-    global: (props) => ({
-      'html, body': {
-        fontSize: 'sm',
-        color: props.colorMode === 'dark' ? 'white' : 'gray.600',
-        lineHeight: 'tall'
-      },
-      a: {
-        color: props.colorMode === 'dark' ? 'teal.300' : 'teal.500'
+  global: {
+    // Styles for the `body`
+    body: {
+      // Bg: "gray.900",
+      // color: "white",
+    },
+    // Styles for the `a`
+    a: {
+      color: 'red.500',
+      _hover: {
+        textDecoration: 'underline'
       }
-    })
+    }
   }
 };

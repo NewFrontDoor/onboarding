@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useLayoutEffect, useRef} from 'react';
 import {
   Box,
   Heading,
@@ -11,10 +11,38 @@ import {
   InputGroup,
   InputRightElement
 } from '@chakra-ui/react';
+import pagemap from 'pagemap';
 
-const ControlBox = ({isOwner, editors = [], loading, isChanged}) => {
+const ControlBox = ({
+  isOwner,
+  editors = [],
+  loading,
+  formState,
+  reset,
+  initialData
+}) => {
+  const inputElement = useRef(null);
+  const [mapShowing, setMapShowing] = useState(false);
   const [editorList, editEditors] = useState(editors);
   const [inputValue, setValue] = useState('');
+
+  useLayoutEffect(() => {
+    if (!mapShowing) {
+      pagemap(inputElement.current, {
+        viewport: null,
+        styles: {
+          'header,footer,section,article': 'rgba(0, 0, 0, 0.08)',
+          'h1,a': 'rgba(0, 0, 0, 0.10)',
+          'h2,h3,h4': 'rgba(0, 0, 0, 0.08)'
+        },
+        back: 'rgba(0, 0, 0, 0.02)',
+        view: 'rgba(0, 0, 0, 0.05)',
+        drag: 'rgba(0, 0, 0, 0.10)',
+        interval: null
+      });
+      setMapShowing(true);
+    }
+  }, [mapShowing, setMapShowing]);
 
   function deleteEditors(email) {
     const newEditors = editorList.filter((entry) => entry !== email);
@@ -40,17 +68,40 @@ const ControlBox = ({isOwner, editors = [], loading, isChanged}) => {
       border="2px"
       p="20px"
       borderRadius="10px"
+      w="344px"
     >
       <Heading size="lg">Controls</Heading>
+      <Heading size="md">Mini map</Heading>
+      <Box h="200px">
+        <Box
+          ref={inputElement}
+          as="canvas"
+          style={{height: '100%', width: '300px', margin: 'auto'}}
+        />
+      </Box>
       <ButtonGroup variant="outline" spacing="6">
-        <Button
-          isDisabled={!isChanged}
+        <Input
+          isDisabled={!formState.isDirty}
           isLoading={loading}
           loadingText="Loading"
+          type="submit"
+        />
+        <Button
+          isDisabled={!formState.isDirty}
+          onClick={() =>
+            reset(
+              {...initialData},
+              {
+                errors: false,
+                dirtyFields: false,
+                isDirty: false,
+                isSubmitted: false
+              }
+            )
+          }
         >
-          Save
+          Revert
         </Button>
-        <Button isDisabled={!isChanged}>Revert</Button>
       </ButtonGroup>
       {isOwner && (
         <Box>
