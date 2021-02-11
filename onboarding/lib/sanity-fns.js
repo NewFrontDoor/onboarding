@@ -15,8 +15,9 @@ export function blocksToText(blocks, options_ = {}) {
     .join('\n\n');
 }
 
-export function submitForm(values) {
-  fetch('/api/submit', { 
+export function submitForm(values, callback) {
+  console.log(values);
+  fetch('/api/submit', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -25,7 +26,7 @@ export function submitForm(values) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
+      callback(data);
     })
     .catch((error) => {
       console.error('Error:', error);

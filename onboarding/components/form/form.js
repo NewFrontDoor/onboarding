@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useForm, FormProvider} from 'react-hook-form';
 import CoreDetails from './core-details.js';
@@ -6,26 +7,32 @@ import DesignDetails from './design-details.js';
 import AdminDetails from './admin-details.js';
 import Purpose from './purpose.js';
 import ControlBox from './control-box.js';
-import {Input, Accordion, AccordionItem} from '@chakra-ui/react';
+import {Accordion, AccordionItem} from '@chakra-ui/react';
 import {DevTool} from '@hookform/devtools';
 import {submitForm} from '../../lib/sanity-fns.js';
 
 const FormComponent = ({sanityData}) => {
-  console.log(sanityData);
+  const [loading, setLoading] = useState(false);
   const onSubmit = (data) => {
+    setLoading(true);
+    console.log(loading);
     const merged = {
-      slug: sanityData.slug,
+      /*slug: sanityData.slug,
       owner: sanityData.owner,
       _id: sanityData._id,
       _createdAt: sanityData._createdAt,
-      _type: sanityData._type,
+      _type: sanityData._type,*/
       ...data,
-      abn: Number.parseInt(data.abn, 10),
-      font_choices: data.font_choices.split(', ')
+      abn: Number.parseInt(data.abn, 10)
     };
-    console.log(merged);
-    submitForm(merged);
+    submitForm(merged, response);
   };
+
+  function response(data) {
+    console.log(data.outcome);
+    setLoading(false);
+    console.log(loading);
+  }
 
   const methods = useForm({
     mode: 'onBlur',
@@ -57,6 +64,7 @@ const FormComponent = ({sanityData}) => {
           </AccordionItem>
         </Accordion>
         <ControlBox
+          loading={loading}
           isOwner={sanityData.isOwner}
           editors={sanityData.authorisedAccounts}
           formState={formState}
