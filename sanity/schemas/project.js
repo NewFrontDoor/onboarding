@@ -62,16 +62,28 @@ export default {
       options: {
         layout: 'tags',
         list: [
-          {title: 'Elvanto', value: 'cms-elvanto'},
-          {title: 'Tithely', value: 'cms-tithely'},
+          {title: 'Elvanto', value: 'elvanto'},
+          {title: 'Tithely', value: 'tithely'},
           {
             title: 'Church Community Builder',
-            value: 'cms-ccb'
+            value: 'ccb'
           },
-          {title: 'Planning Center', value: 'cms-planning_center'},
-          {title: 'Jethro', value: 'cms-jethro'}
+          {title: 'Planning Center', value: 'planning_center'},
+          {title: 'Jethro', value: 'jethro'},
+          {title: 'None', value: 'none'}
         ]
       }
+    },
+    {
+      name: 'additional_cms',
+      title: 'Additional CMS options',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [{name: 'cms', type: 'string', title: 'CMS'}]
+        }
+      ]
     },
     {
       name: 'alias',
@@ -81,21 +93,42 @@ export default {
       options: {
         layout: 'tags',
         list: [
-          {title: 'minister', value: 'alias-minister'},
-          {title: 'pastor', value: 'alias-pastor'},
-          {title: 'contact', value: 'alias-contact'},
-          {title: 'info', value: 'alias-info'},
-          {title: 'bom', value: 'alias-bom'},
-          {title: 'elders', value: 'alias-elders'},
-          {title: 'deacons', value: 'alias-deacons'},
-          {title: 'secretary', value: 'alias-secretary'},
-          {title: 'treasurer', value: 'alias-treasurer'},
-          {title: 'pc', value: 'alias-pc'},
-          {title: 'committee', value: 'alias-committee'},
-          {title: 'welcoming', value: 'alias-welcoming'},
-          {title: 'youth', value: 'alias-youth'}
+          {title: 'minister', value: 'minister'},
+          {title: 'pastor', value: 'pastor'},
+          {title: 'contact', value: 'contact'},
+          {title: 'info', value: 'info'},
+          {title: 'bom', value: 'bom'},
+          {title: 'elders', value: 'elders'},
+          {title: 'deacons', value: 'deacons'},
+          {title: 'secretary', value: 'secretary'},
+          {title: 'treasurer', value: 'treasurer'},
+          {title: 'pc', value: 'pc'},
+          {title: 'committee', value: 'committee'},
+          {title: 'welcoming', value: 'welcoming'},
+          {title: 'youth', value: 'youth'}
         ]
       }
+    },
+    {
+      name: 'additional_alias',
+      title: 'Additional aliases required',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [{name: 'alias', type: 'string', title: 'Alias'}]
+        }
+      ]
+    },
+    {
+      name: 'website_audience',
+      title: 'Website audience',
+      type: 'text'
+    },
+    {
+      name: 'website_purpose',
+      title: 'Website purpose',
+      type: 'text'
     },
     {
       name: 'logos',
@@ -117,13 +150,29 @@ export default {
       name: 'colour_scheme',
       title: 'Colour scheme',
       type: 'array',
-      of: [{type: 'string'}]
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {name: 'colour', type: 'string', title: 'Colour'},
+            {name: 'function', type: 'string', title: 'Function'}
+          ]
+        }
+      ]
     },
     {
       name: 'font_choices',
       title: 'Font choices',
       type: 'array',
-      of: [{type: 'string'}]
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {name: 'font', type: 'string', title: 'Font'},
+            {name: 'function', type: 'string', title: 'Function'}
+          ]
+        }
+      ]
     },
     {
       name: 'reference_websites',
