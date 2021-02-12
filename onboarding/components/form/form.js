@@ -6,7 +6,7 @@ import DesignDetails from './design-details.js';
 import AdminDetails from './admin-details.js';
 import Purpose from './purpose.js';
 import ControlBox from './control-box.js';
-import {Accordion, AccordionItem} from '@chakra-ui/react';
+import {SlideFade, Accordion, AccordionItem} from '@chakra-ui/react';
 import {DevTool} from '@hookform/devtools';
 import {useMutation} from 'react-query';
 
@@ -31,14 +31,6 @@ const submitForm = (sanityData, data) => {
 };
 
 const FormComponent = ({sanityData}) => {
-  const mutation = useMutation((data) => submitForm(sanityData, data), {
-    onSuccess: () => {
-      // Invalidate and refetch
-      // queryClient.invalidateQueries('todos')
-      console.log('hooray!');
-    }
-  });
-
   const methods = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -48,6 +40,14 @@ const FormComponent = ({sanityData}) => {
 
   const {reset, formState, handleSubmit, control} = methods;
 
+  const mutation = useMutation((data) => submitForm(sanityData, data), {
+    onSuccess: () => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries('todos')
+      console.log('hooray!');
+    }
+  });
+
   const onSubmit = handleSubmit((data) => {
     mutation.mutate(data);
   });
@@ -55,23 +55,25 @@ const FormComponent = ({sanityData}) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
-        <Accordion allowMultiple defaultIndex={[0, 1, 2, 3, 4]}>
-          <AccordionItem>
-            <CoreDetails />
-          </AccordionItem>
-          <AccordionItem>
-            <AdminDetails site="example.com" />
-          </AccordionItem>
-          <AccordionItem>
-            <Purpose />
-          </AccordionItem>
-          <AccordionItem>
-            <DesignDetails />
-          </AccordionItem>
-          <AccordionItem>
-            <ContentDetails />
-          </AccordionItem>
-        </Accordion>
+        <SlideFade in={sanityData} offsetY="-100px">
+          <Accordion allowMultiple defaultIndex={[0, 1, 2, 3, 4]}>
+            <AccordionItem>
+              <CoreDetails />
+            </AccordionItem>
+            <AccordionItem>
+              <AdminDetails site="example.com" />
+            </AccordionItem>
+            <AccordionItem>
+              <Purpose />
+            </AccordionItem>
+            <AccordionItem>
+              <DesignDetails />
+            </AccordionItem>
+            <AccordionItem>
+              <ContentDetails />
+            </AccordionItem>
+          </Accordion>
+        </SlideFade>
         <ControlBox
           isLoading={mutation.isLoading}
           isOwner={sanityData.isOwner}
@@ -81,8 +83,6 @@ const FormComponent = ({sanityData}) => {
           initialData={sanityData}
         />
       </form>
-
-      <DevTool control={control} />
     </FormProvider>
   );
 };

@@ -25,7 +25,5 @@ export default async function project(request, response) {
   const newMainData = {...results.mainData}; // (({owner, ...o}) => o)(results.mainData);
   newMainData.isOwner = results.mainData.owner === session.user.email;
 
-  response.status(200).json({
-    mainData: newMainData
-  });
+  response.status(200).json({...newMainData});
 }

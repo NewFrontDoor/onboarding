@@ -27,7 +27,7 @@ const FormPage = (props) => {
   return (
     <Layout {...props}>
       {query.isError && 'Error'}
-      {query.isLoading && 'Loading'}
+      {/*query.isLoading && 'Loading'*/}
       {query.isSuccess && <Form sanityData={query.data} />}
     </Layout>
   );
