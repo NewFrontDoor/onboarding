@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useForm, FormProvider} from 'react-hook-form';
 import CoreDetails from './core-details.js';
@@ -9,30 +8,36 @@ import Purpose from './purpose.js';
 import ControlBox from './control-box.js';
 import {Accordion, AccordionItem} from '@chakra-ui/react';
 import {DevTool} from '@hookform/devtools';
-import {submitForm} from '../../lib/sanity-fns.js';
+import {useMutation} from 'react-query';
 
-const FormComponent = ({sanityData}) => {
-  const [loading, setLoading] = useState(false);
-  const onSubmit = (data) => {
-    setLoading(true);
-    console.log(loading);
-    const merged = {
-      /*slug: sanityData.slug,
-      owner: sanityData.owner,
-      _id: sanityData._id,
-      _createdAt: sanityData._createdAt,
-      _type: sanityData._type,*/
-      ...data,
-      abn: Number.parseInt(data.abn, 10)
-    };
-    submitForm(merged, response);
+const submitForm = (sanityData, data) => {
+  const merged = {
+    slug: sanityData.slug,
+    owner: sanityData.owner,
+    _id: sanityData._id,
+    _createdAt: sanityData._createdAt,
+    _type: sanityData._type,
+    ...data,
+    abn: Number.parseInt(data.abn, 10)
   };
 
-  function response(data) {
-    console.log(data.outcome);
-    setLoading(false);
-    console.log(loading);
-  }
+  return fetch('/api/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(merged)
+  }).then((response) => response.json());
+};
+
+const FormComponent = ({sanityData}) => {
+  const mutation = useMutation((data) => submitForm(sanityData, data), {
+    onSuccess: () => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries('todos')
+      console.log('hooray!');
+    }
+  });
 
   const methods = useForm({
     mode: 'onBlur',
@@ -43,9 +48,13 @@ const FormComponent = ({sanityData}) => {
 
   const {reset, formState, handleSubmit, control} = methods;
 
+  const onSubmit = handleSubmit((data) => {
+    mutation.mutate(data);
+  });
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Accordion allowMultiple defaultIndex={[0, 1, 2, 3, 4]}>
           <AccordionItem>
             <CoreDetails />
@@ -64,7 +73,7 @@ const FormComponent = ({sanityData}) => {
           </AccordionItem>
         </Accordion>
         <ControlBox
-          loading={loading}
+          isLoading={mutation.isLoading}
           isOwner={sanityData.isOwner}
           editors={sanityData.authorisedAccounts}
           formState={formState}
@@ -80,8 +89,13 @@ const FormComponent = ({sanityData}) => {
 
 FormComponent.propTypes = {
   sanityData: PropTypes.shape({
+    _createdAt: PropTypes.instanceOf(Date),
+    _id: PropTypes.string,
+    _type: PropTypes.any,
     authorisedAccounts: PropTypes.arrayOf(PropTypes.string),
-    isOwner: PropTypes.any
+    isOwner: PropTypes.bool,
+    owner: PropTypes.string,
+    slug: PropTypes.string
   })
 };
 

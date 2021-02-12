@@ -2,8 +2,17 @@ import PropTypes from 'prop-types';
 import NavBar from './header/header.js';
 import Head from 'next/head';
 import {Box} from '@chakra-ui/react';
+import {useQuery} from 'react-query';
 
-const Layout = ({mainData, menuData, user, children}) => {
+function getUser() {
+  return fetch('/api/me').then((response) => {
+    if (response.ok) return response.json();
+  });
+}
+
+const Layout = ({mainData, menuData, children}) => {
+  const query = useQuery('user', getUser);
+
   return (
     <div>
       <Head>
@@ -39,7 +48,7 @@ const Layout = ({mainData, menuData, user, children}) => {
         />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <NavBar user={user} items={menuData?.menuitems} />
+      <NavBar user={query.data} items={menuData?.menuitems} />
       <Box as="article" maxW="700px" m="auto" p="15px">
         {children}
       </Box>
@@ -52,8 +61,7 @@ Layout.propTypes = {
   mainData: PropTypes.object.isRequired,
   menuData: PropTypes.shape({
     menuitems: PropTypes.arrayOf(PropTypes.object)
-  }),
-  user: PropTypes.any
+  })
 };
 
 export default Layout;

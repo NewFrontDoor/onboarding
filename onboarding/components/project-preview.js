@@ -8,7 +8,7 @@ const ProjectPreview = ({project}) => {
     <Link
       passHref
       href={{
-        pathname: '/form',
+        pathname: '/form/',
         query: {project: project.slug?.current}
       }}
     >

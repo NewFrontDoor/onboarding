@@ -1,6 +1,15 @@
 import App from 'next/app';
 import PropTypes from 'prop-types';
 import {ChakraProvider, extendTheme} from '@chakra-ui/react';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider
+} from 'react-query';
+
+const queryClient = new QueryClient();
 
 import theme from '../theme/index.js';
 
@@ -24,9 +33,11 @@ class MyApp extends App {
   render() {
     const {Component, pageProps} = this.props;
     return (
-      <ChakraProvider theme={cktheme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={cktheme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </QueryClientProvider>
     );
   }
 }

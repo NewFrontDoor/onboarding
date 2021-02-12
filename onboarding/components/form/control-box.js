@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {useState, useLayoutEffect, useRef} from 'react';
 import {
   Box,
@@ -16,7 +17,7 @@ import pagemap from 'pagemap';
 const ControlBox = ({
   isOwner,
   editors = [],
-  loading,
+  isLoading,
   formState,
   reset,
   initialData
@@ -80,12 +81,14 @@ const ControlBox = ({
         />
       </Box>
       <ButtonGroup variant="outline" spacing="6">
-        <Input
+        <Button
           isDisabled={!formState.isDirty}
-          isLoading={loading}
+          isLoading={isLoading}
           loadingText="Loading"
           type="submit"
-        />
+        >
+          Submit
+        </Button>
         <Button
           isDisabled={!formState.isDirty}
           onClick={() =>
@@ -143,6 +146,17 @@ const ControlBox = ({
       )}
     </Box>
   );
+};
+
+ControlBox.propTypes = {
+  editors: PropTypes.array,
+  formState: PropTypes.shape({
+    isDirty: PropTypes.bool
+  }),
+  initialData: PropTypes.object,
+  isOwner: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  reset: PropTypes.func
 };
 
 export default ControlBox;

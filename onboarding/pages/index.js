@@ -4,17 +4,15 @@ import {mainQuery, menuQuery} from '../lib/queries.js';
 import SanityBlock from '../components/block-text-serializer.js';
 import {fetchQuery} from '../lib/sanity.js';
 import PropTypes from 'prop-types';
-import {useFetchUser} from '../lib/user.js';
 
 const Home = (props) => {
-  const {user, loading} = useFetchUser();
   const {mainData} = props;
+
   return (
-    <Layout user={user} loading={loading} {...props}>
+    <Layout {...props}>
       <Box as="h1" textStyle="h1">
         {mainData.heading}
       </Box>
-      {user && <p>Welcome, {user.name}</p>}
       <SanityBlock blocks={mainData.mainText} />
     </Layout>
   );

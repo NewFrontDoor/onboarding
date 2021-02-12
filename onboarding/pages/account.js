@@ -7,9 +7,9 @@ import {fetchQuery} from '../lib/sanity.js';
 import {findOrCreate} from '../lib/user.js';
 import {Grid, Text, Heading} from '@chakra-ui/react';
 
-const Account = ({user, userData, menuData}) => {
+const Account = ({userData, menuData}) => {
   return (
-    <Layout user={user} menuData={menuData}>
+    <Layout menuData={menuData}>
       <Heading as="h1" size="2xl">
         My Account
       </Heading>
@@ -84,7 +84,6 @@ export async function getServerSideProps({req, res}) {
 
   return {
     props: {
-      user: session.user,
       menuData: results.menuData,
       userData: user
     }
