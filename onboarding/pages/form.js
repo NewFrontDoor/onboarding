@@ -13,7 +13,7 @@ function useProject() {
   return useQuery(['project', project], () => {
     return fetch(`/api/project/${project}`).then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error('Network response was not ok');
       }
 
       return response.json();
@@ -23,11 +23,11 @@ function useProject() {
 
 const FormPage = (props) => {
   const query = useProject();
-  
+
   return (
     <Layout {...props}>
-      {query.isError && "Error"}
-      {query.isLoading && "Loading"}
+      {query.isError && 'Error'}
+      {query.isLoading && 'Loading'}
       {query.isSuccess && <Form sanityData={query.data} />}
     </Layout>
   );
@@ -35,8 +35,7 @@ const FormPage = (props) => {
 
 // Amend below prop-types to be PropTypes.shape({...})
 FormPage.propTypes = {
-  mainData: PropTypes.object.isRequired,
-  menuData: PropTypes.object.isRequired,
+  menuData: PropTypes.object.isRequired
 };
 
 export async function getStaticProps() {
@@ -45,10 +44,9 @@ export async function getStaticProps() {
       'menuData': ${menuQuery}
     }`
   );
-  
+
   return {
     props: {
-      mainData: {},
       menuData: results.menuData
     }
   };
