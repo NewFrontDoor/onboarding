@@ -22,7 +22,12 @@ export default {
       name: 'authorisedAccounts',
       title: 'Authorised accounts',
       type: 'array',
-      of: [{type: 'string'}]
+      of: [
+        {
+          type: 'object',
+          fields: [{name: 'email', type: 'string', title: 'Email'}]
+        }
+      ]
     },
     {
       name: 'owner',
@@ -144,7 +149,8 @@ export default {
     {
       name: 'brand_assets',
       title: 'Brand assets',
-      type: 'file'
+      type: 'array',
+      of: [{type: 'file'}, {type: 'image'}]
     },
     {
       name: 'colour_scheme',
@@ -178,7 +184,12 @@ export default {
       name: 'reference_websites',
       title: 'Reference websites',
       type: 'array',
-      of: [{type: 'url'}]
+      of: [
+        {
+          type: 'object',
+          fields: [{name: 'url', type: 'string', title: 'Url'}]
+        }
+      ]
     },
     {
       name: 'structure',
@@ -186,10 +197,15 @@ export default {
       type: 'file'
     },
     {
-      name: 'socials',
+      name: 'social_url',
       title: 'Associated Social accounts/links',
       type: 'array',
-      of: [{type: 'string'}]
+      of: [
+        {
+          type: 'object',
+          fields: [{name: 'url', type: 'string', title: 'URL'}]
+        }
+      ]
     },
     {
       name: 'org_chart',

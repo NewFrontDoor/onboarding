@@ -8,20 +8,21 @@ import {
   InputLeftAddon,
   InputRightElement,
   IconButton,
-  AccordionPanel
+  AccordionPanel,
+  UnorderedList,
+  Button
 } from '@chakra-ui/react';
 import {MdDelete} from 'react-icons/md';
 import FileInput from './file-input.js';
-import FieldArray from './field-array.js';
 import AccordionTop from './accordion-top.js';
+import {uuid} from '@sanity/uuid';
 
-const ContentDetails = () => {
+const ContentDetails = ({project}) => {
   const [percent, setPercent] = useState();
 
-  const {register, errors, watch, control} = useFormContext();
+  const {register, errors, watch} = useFormContext();
   const {fields, append, remove} = useFieldArray({
-    control,
-    name: 'socials'
+    name: 'social_url'
   });
 
   const wfields = watch(['structure', 'social_media']);
@@ -42,6 +43,7 @@ const ContentDetails = () => {
             text="Drop PDF, .docx or .xlsx archive here"
             name="structure"
             label="Content structure"
+            project={project}
             description={
               <p>
                 Upload a document outlining your website structure. Could be a
@@ -53,28 +55,52 @@ const ContentDetails = () => {
         </FormControl>
         <FormControl isInvalid={errors.name} variant="project">
           <FormLabel>Social media URLs</FormLabel>
-          <FieldArray
-            identifier="social_media"
-            add="Add a URL"
-            Item={({item, remove, index}) => (
-              <InputGroup>
-                <InputLeftAddon>https://</InputLeftAddon>
-                <Input
-                  ref={register()}
-                  type="text"
-                  borderLeftRadius="0"
-                  name={`social_media[${index}]`}
-                />
-                <InputRightElement>
-                  <IconButton
-                    icon={<MdDelete />}
-                    name="remove"
-                    onClick={() => remove(index)}
+          <UnorderedList
+            styleType="none"
+            spacing="2"
+            marginLeft="0"
+            marginBottom="4"
+          >
+            {fields.map((item, index) => {
+              return (
+                <li key={item.id}>
+                  <input
+                    ref={register()}
+                    name={`social_url[${index}]._key`}
+                    defaultValue={item._key}
+                    type="hidden"
                   />
-                </InputRightElement>
-              </InputGroup>
-            )}
-          />
+                  <InputGroup>
+                    <InputLeftAddon>https://</InputLeftAddon>
+                    <Input
+                      ref={register()}
+                      name={`social_url[${index}].url`}
+                      defaultValue={item.url}
+                      type="text"
+                      placeholder="Add URL"
+                    />
+                    <InputRightElement>
+                      <IconButton
+                        icon={<MdDelete />}
+                        name="remove"
+                        onClick={() => remove(index)}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </li>
+              );
+            })}
+            ;
+          </UnorderedList>
+
+          <Button
+            type="button"
+            onClick={() => {
+              append({_key: uuid(), social_url: ''});
+            }}
+          >
+            Add social media URL
+          </Button>
         </FormControl>
       </AccordionPanel>
     </div>

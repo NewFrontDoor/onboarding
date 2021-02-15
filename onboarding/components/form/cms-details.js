@@ -82,6 +82,7 @@ const CMSDetails = () => {
                 defaultValue={item.cms} // Make sure to set up defaultValue
                 type="text"
                 borderLeftRadius="0"
+                placeholder="My"
               />
               <InputRightAddon>
                 <IconButton

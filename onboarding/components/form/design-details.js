@@ -6,7 +6,9 @@ import {
   InputLeftAddon,
   InputRightElement,
   InputGroup,
-  AccordionPanel
+  AccordionPanel,
+  Button,
+  UnorderedList
 } from '@chakra-ui/react';
 import {useFieldArray, useFormContext} from 'react-hook-form';
 import {MdDelete} from 'react-icons/md';
@@ -14,12 +16,12 @@ import FileInput from './file-input.js';
 import FontChoices from './font-choices.js';
 import ColourChoices from './colour-choices.js';
 import AccordionTop from './accordion-top.js';
+import {uuid} from '@sanity/uuid';
 
-const DesignDetails = () => {
-  const {register, errors, control} = useFormContext();
+const DesignDetails = ({project}) => {
+  const {register, errors} = useFormContext();
   const {fields, append, remove} = useFieldArray({
-    control,
-    name: 'colour_scheme'
+    name: 'reference_websites'
   });
   return (
     <div>
@@ -28,9 +30,12 @@ const DesignDetails = () => {
         <FormControl isInvalid={errors.name} variant="project">
           <FileInput
             multiple
+            isArray
             accept="image/png, image/jpg, image/jpeg, image/svg"
-            name="images"
+            type="image"
+            name="logos"
             label="Logo images"
+            project={project}
             description={
               <ul>
                 <li>Required: SVG version of your primary logo</li>
@@ -55,47 +60,71 @@ const DesignDetails = () => {
             text="Drop PDF file or ZIP archive here"
             name="style_guide"
             label="Style guide"
+            project={project}
           />
         </FormControl>
         <FormControl isInvalid={errors.name} variant="project">
           <FileInput
             multiple
+            isArray
             accept="image/png, image/jpg, image/jpeg, image/svg"
+            type="image"
             text="Drop image files here"
             name="brand_assets"
             label="Additional brand assets, photographs, illustrations"
+            project={project}
           />
         </FormControl>
         <ColourChoices />
         <FontChoices />
         <FormControl isInvalid={errors.name} variant="project">
           <FormLabel>Reference websites</FormLabel>
-          {fields.map(({id, url_value}, index) => {
-            return (
-              <div key={id}>
-                <InputGroup>
-                  <InputLeftAddon>https://</InputLeftAddon>
-                  <Input
+          <UnorderedList
+            styleType="none"
+            spacing="2"
+            marginLeft="0"
+            marginBottom="4"
+          >
+            {fields.map((item, index) => {
+              return (
+                <li key={item.id}>
+                  <input
                     ref={register()}
-                    type="text"
-                    borderLeftRadius="0"
-                    name={`url_value[${index}]`}
-                    defaultValue={url_value}
+                    name={`reference_websites[${index}]._key`}
+                    defaultValue={item._key}
+                    type="hidden"
                   />
-                  <InputRightElement>
-                    <IconButton
-                      icon={<MdDelete />}
-                      name="remove"
-                      onClick={() => remove(index)}
+                  <InputGroup>
+                    <InputLeftAddon>https://</InputLeftAddon>
+                    <Input
+                      ref={register()}
+                      name={`reference_websites[${index}].url`}
+                      defaultValue={item.url}
+                      type="text"
+                      placeholder="Add URL"
                     />
-                  </InputRightElement>
-                </InputGroup>
-              </div>
-            );
-          })}
-          <button type="button" onClick={() => append({})}>
+                    <InputRightElement>
+                      <IconButton
+                        icon={<MdDelete />}
+                        name="remove"
+                        onClick={() => remove(index)}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </li>
+              );
+            })}
+            ;
+          </UnorderedList>
+
+          <Button
+            type="button"
+            onClick={() => {
+              append({_key: uuid(), reference_websites: ''});
+            }}
+          >
             Add a URL
-          </button>
+          </Button>
         </FormControl>
       </AccordionPanel>
     </div>

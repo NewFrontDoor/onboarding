@@ -10,7 +10,7 @@ function getUser() {
   });
 }
 
-const Layout = ({mainData, menuData, children}) => {
+const Layout = ({mainData, wide, menuData, children}) => {
   const query = useQuery('user', getUser);
 
   return (
@@ -49,7 +49,7 @@ const Layout = ({mainData, menuData, children}) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <NavBar user={query.data} items={menuData?.menuitems} />
-      <Box as="article" maxW="700px" m="auto" p="15px">
+      <Box as="article" maxW={wide ? '1400px' : '700px'} m="auto" p="15px">
         {children}
       </Box>
     </div>

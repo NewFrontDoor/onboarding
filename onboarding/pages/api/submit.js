@@ -5,6 +5,8 @@ export default async (request, response) => {
     ...request.body
   };
 
+  console.log(request.body);
+
   client.createOrReplace(doc).then((result) => {
     response.status(200).json({outcome: 'Form was submitted/updated', result});
   });

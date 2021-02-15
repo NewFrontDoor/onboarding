@@ -6,6 +6,7 @@ import {menuQuery} from '../lib/queries.js';
 import {fetchQuery} from '../lib/sanity.js';
 import {findOrCreate} from '../lib/user.js';
 import {Grid, Text, Heading} from '@chakra-ui/react';
+import Link from 'next/link';
 
 const Account = ({userData, menuData}) => {
   return (
@@ -16,6 +17,7 @@ const Account = ({userData, menuData}) => {
       <Heading as="h2" size="xl">
         Projects I own
       </Heading>
+      <Link href="/form?project=new">Start a new project now</Link>
       {userData.owner ? (
         <Grid templateColumns="repeat(5, 1fr)" gap={6}>
           {userData.owner.map((project) => (
@@ -23,7 +25,10 @@ const Account = ({userData, menuData}) => {
           ))}
         </Grid>
       ) : (
-        <Text>You don‘t own any projects. Start one now.</Text>
+        <Text>
+          You don‘t own any projects.{' '}
+          <Link href="/form?project=new">Start one now.</Link>
+        </Text>
       )}
       <Heading as="h2" size="xl">
         Projects I contribute to

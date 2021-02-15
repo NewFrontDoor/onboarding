@@ -17,7 +17,9 @@ export default async function project(request, response) {
 
   if (
     results.mainData.owner !== session.user.email &&
-    results.mainData.authorisedAccounts?.includes(session.user.email) !== true
+    results.mainData?.authorisedAccounts
+      .map((a) => a.email)
+      .includes(session.user.email) !== true
   ) {
     return response.status(404).send();
   }

@@ -66,19 +66,44 @@ const img = {
 };
 
 const FileInput = (props) => {
-  const {name, label = name, description} = props;
+  const {name, label = name, description, project, type, isArray} = props;
   const {register, unregister, setValue, getValues, watch} = useFormContext();
 
   const files = watch(name);
 
   const onDrop = useCallback(
     (droppedFiles) => {
-      const concatenatedFileList = [
-        ...droppedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file)
+      const success = droppedFiles.map((file) => {
+        const formData = new FormData();
+        // Actual file has to be appended last.
+        formData.append('project', project);
+        formData.append('targetfield', name);
+        formData.append('type', type);
+        formData.append('isArray', isArray);
+        formData.append('file', file, file.path);
+        return fetch('/api/upload-file', {
+          method: 'POST',
+          body: formData
+        })
+          .then((response) => {
+            return response.json();
           })
-        ),
+          .then((result) => {
+            console.log('Success:', result);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      });
+
+      console.log(success);
+
+      const concatenatedFileList = [
+        ...droppedFiles.map((file) => {
+          return Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          });
+        }),
         ...(getValues(name) || [])
       ];
       setValue(name, concatenatedFileList, {shouldValidate: true});

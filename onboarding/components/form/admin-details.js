@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {FormControl, AccordionPanel} from '@chakra-ui/react';
-import {useFormContext, useFieldArray} from 'react-hook-form';
+import {useFormContext} from 'react-hook-form';
 import FileInput from './file-input.js';
 import AccordionTop from './accordion-top.js';
 import CMSDetails from './cms-details.js';
 import EmailDetails from './email-details.js';
+import AccountDetails from './account-details.js';
 
-const AdminDetails = () => {
+const AdminDetails = ({project}) => {
   const [percent, setPercent] = useState();
 
   const {register, errors, getValues, watch} = useFormContext();
@@ -29,6 +30,7 @@ const AdminDetails = () => {
         Office 365 and Administrative
       </AccordionTop>
       <AccordionPanel pb={4}>
+        <AccountDetails />
         <CMSDetails />
         <EmailDetails />
 
@@ -38,6 +40,7 @@ const AdminDetails = () => {
             text="Drop orgchart.xlsx here"
             name="structure"
             label="Organisation Chart"
+            project={project}
             description={
               <p>
                 <a href="mything.xlsx">Download this template org chart</a>,

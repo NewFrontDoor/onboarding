@@ -87,6 +87,7 @@ const EmailDetails = () => {
                 defaultValue={item.alias} // Make sure to set up defaultValue
                 type="text"
                 borderLeftRadius="0"
+                placeholder="Add alias"
               />
               <InputRightAddon>
                 <IconButton
@@ -103,7 +104,7 @@ const EmailDetails = () => {
       <Button
         type="button"
         onClick={() => {
-          append({_key: uuid(), alias: 'add alias'});
+          append({_key: uuid(), alias: ''});
         }}
       >
         Add another email alias

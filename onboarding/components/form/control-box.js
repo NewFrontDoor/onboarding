@@ -5,27 +5,28 @@ import {
   Heading,
   Button,
   ButtonGroup,
-  Text,
-  CloseButton,
-  Stack,
   Input,
   InputGroup,
-  InputRightElement
+  FormLabel,
+  FormControl,
+  UnorderedList,
+  IconButton,
+  InputRightAddon
 } from '@chakra-ui/react';
+import {useFormContext, useFieldArray} from 'react-hook-form';
+import {MdDelete} from 'react-icons/md';
 import pagemap from 'pagemap';
+import {uuid} from '@sanity/uuid';
 
-const ControlBox = ({
-  isOwner,
-  editors = [],
-  isLoading,
-  formState,
-  reset,
-  initialData
-}) => {
+const ControlBox = ({isOwner, isLoading, formState, reset, initialData}) => {
   const inputElement = useRef(null);
   const [mapShowing, setMapShowing] = useState(false);
-  const [editorList, editEditors] = useState(editors);
-  const [inputValue, setValue] = useState('');
+
+  const {register, errors} = useFormContext();
+
+  const {fields, append, remove} = useFieldArray({
+    name: 'authorisedAccounts'
+  });
 
   useLayoutEffect(() => {
     if (!mapShowing) {
@@ -45,111 +46,105 @@ const ControlBox = ({
     }
   }, [mapShowing, setMapShowing]);
 
-  function deleteEditors(email) {
-    const newEditors = editorList.filter((entry) => entry !== email);
-    editEditors(newEditors);
-  }
-
-  function addEditors(email) {
-    if (
-      email !== '' &&
-      editorList.filter((entry) => entry === email).length === 0
-    ) {
-      editEditors(editorList.concat(email));
-    }
-
-    setValue('');
-  }
-
   return (
-    <Box
-      pos="fixed"
-      right="200px"
-      bottom="400px"
-      border="2px"
-      p="20px"
-      borderRadius="10px"
-      w="344px"
-    >
-      <Heading size="lg">Controls</Heading>
-      <Heading size="md">Mini map</Heading>
-      <Box h="200px">
-        <Box
-          ref={inputElement}
-          as="canvas"
-          style={{height: '100%', width: '300px', margin: 'auto'}}
-        />
-      </Box>
-      <ButtonGroup variant="outline" spacing="6">
-        <Button
-          isDisabled={!formState.isDirty}
-          isLoading={isLoading}
-          loadingText="Loading"
-          type="submit"
-        >
-          Submit
-        </Button>
-        <Button
-          isDisabled={!formState.isDirty}
-          onClick={() =>
-            reset(
-              {...initialData},
-              {
-                errors: false,
-                dirtyFields: false,
-                isDirty: false,
-                isSubmitted: false
-              }
-            )
-          }
-        >
-          Revert
-        </Button>
-      </ButtonGroup>
-      {isOwner && (
-        <Box>
-          <Heading size="md">Verified editors</Heading>
-          <Text>Add email addresses below</Text>
-          {editorList.map((editor) => (
-            <Stack key={editor} direction="row" spacing={6}>
-              <Text>{editor}</Text>
-              <CloseButton size="sm" onClick={() => deleteEditors(editor)} />
-            </Stack>
-          ))}
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              addEditors(inputValue);
-            }}
-          >
-            <InputGroup>
-              <Input
-                placeholder="Add email, hit enter"
-                value={inputValue}
-                onChange={(event) => {
-                  setValue(event.target.value);
-                }}
-              />
-              <InputRightElement>
-                <Button
-                  onClick={(event) => {
-                    event.preventDefault();
-                    addEditors(inputValue);
-                  }}
-                >
-                  +
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </form>
+    <Box>
+      <Box
+        sx={{position: 'sticky'}}
+        top="100px"
+        border="2px"
+        p="20px"
+        borderRadius="10px"
+      >
+        <Heading size="lg">Controls</Heading>
+        <Heading size="md">Mini map</Heading>
+        <Box h="200px">
+          <Box
+            ref={inputElement}
+            as="canvas"
+            style={{height: '100%', width: '300px', margin: 'auto'}}
+          />
         </Box>
-      )}
+        {isOwner && (
+          <FormControl isInvalid={errors.name} variant="project">
+            <FormLabel as="legend">Verified editors</FormLabel>
+            <p>Add email addresses below</p>
+            <UnorderedList
+              styleType="none"
+              spacing="2"
+              marginLeft="0"
+              marginBottom="4"
+            >
+              {fields.map((item, index) => (
+                <li key={item.id}>
+                  <input
+                    ref={register()}
+                    name={`authorisedAccounts[${index}]._key`}
+                    defaultValue={item._key}
+                    type="hidden"
+                  />
+                  <InputGroup>
+                    <Input
+                      ref={register()}
+                      name={`authorisedAccounts[${index}].email`}
+                      defaultValue={item.email}
+                      type="text"
+                      placeholder="Add email address"
+                    />
+                    <InputRightAddon>
+                      <IconButton
+                        icon={<MdDelete />}
+                        name="remove"
+                        onClick={() => remove(index)}
+                      />
+                    </InputRightAddon>
+                  </InputGroup>
+                </li>
+              ))}
+            </UnorderedList>
+
+            <Button
+              type="button"
+              onClick={() => {
+                append({_key: uuid(), email: ''});
+              }}
+            >
+              Add another email
+            </Button>
+          </FormControl>
+        )}
+        <br />
+        <ButtonGroup variant="outline" spacing="6">
+          <Button
+            isDisabled={!formState.isDirty}
+            isLoading={isLoading}
+            loadingText="Loading"
+            type="submit"
+          >
+            Submit
+          </Button>
+          <Button
+            isDisabled={!formState.isDirty}
+            onClick={() =>
+              reset(
+                {...initialData},
+                {
+                  errors: false,
+                  dirtyFields: false,
+                  isDirty: false,
+                  isSubmitted: false
+                }
+              )
+            }
+          >
+            Revert
+          </Button>
+        </ButtonGroup>
+      </Box>
     </Box>
   );
 };
 
 ControlBox.propTypes = {
-  editors: PropTypes.array,
   formState: PropTypes.shape({
     isDirty: PropTypes.bool
   }),

@@ -34,42 +34,47 @@ const ColourChoices = () => {
       >
         {fields.map((item, index) => (
           <li key={item.id}>
-            <input
-              ref={register()}
-              name={`colour_scheme[${index}]._key`}
-              defaultValue={item._key}
-              type="hidden"
-            />
-
-            <InputGroup>
-              <InputLeftAddon>#</InputLeftAddon>
-              <Input
+            <Flex>
+              <input
                 ref={register()}
+                name={`colour_scheme[${index}]._key`}
+                defaultValue={item._key}
+                type="hidden"
+              />
+
+              <InputGroup>
+                <InputLeftAddon>#</InputLeftAddon>
+                <Input
+                  ref={register()}
+                w="40%"
                 type="text"
                 borderLeftRadius="0"
                 name={`colour_scheme[${index}].colour`}
                 defaultValue={item.colour}
-              />
-
-              <Select
-                ref={register()}
-                name={`colour_scheme[${index}].function`}
-              >
-                <option selected value="primary">
-                  Primary
-                </option>
-                <option value="secondary">Secondary</option>
-                <option value="highlight">Highlight</option>
-                <option value="lowlight">Lowlight</option>
-                <option value="text">Text</option>
-              </Select>
-
-              <IconButton
-                icon={<MdDelete />}
-                name="remove"
-                onClick={() => remove(index)}
-              />
-            </InputGroup>
+                placeholder="ffffff"
+                />
+                <Spacer />
+                <Select
+                  ref={register()}
+                  w="40%"
+                  name={`colour_scheme[${index}].function`}
+                >
+                  <option selected value="primary">
+                    Primary
+                  </option>
+                  <option value="secondary">Secondary</option>
+                  <option value="highlight">Highlight</option>
+                  <option value="lowlight">Lowlight</option>
+                  <option value="text">Text</option>
+                </Select>
+                <Spacer />
+                <IconButton
+                  icon={<MdDelete />}
+                  name="remove"
+                  onClick={() => remove(index)}
+                />
+              </InputGroup>
+            </Flex>
           </li>
         ))}
       </UnorderedList>
@@ -77,7 +82,7 @@ const ColourChoices = () => {
       <Button
         type="button"
         onClick={() => {
-          append({_key: uuid(), colour: 'ffffff', function: 'primary'});
+          append({_key: uuid(), colour: '', function: 'primary'});
         }}
       >
         Add another colour

@@ -7,7 +7,9 @@ import {
   UnorderedList,
   Button,
   Select,
-  InputGroup
+  InputGroup,
+  Flex,
+  Spacer
 } from '@chakra-ui/react';
 import {useFormContext, useFieldArray} from 'react-hook-form';
 import {MdDelete} from 'react-icons/md';
@@ -31,33 +33,43 @@ const FontChoices = () => {
       >
         {fields.map((item, index) => (
           <li key={item.id}>
-            <input
-              ref={register()}
-              name={`font_choices[${index}]._key`}
-              defaultValue={item._key}
-              type="hidden"
-            />
-            <InputGroup>
-              <Input
+            <Flex>
+              <input
                 ref={register()}
-                name={`font_choices[${index}].font`}
-                defaultValue={item.font}
-                type="text"
+                name={`font_choices[${index}]._key`}
+                defaultValue={item._key}
+                type="hidden"
               />
-              <Select ref={register()} name={`font_choices[${index}].function`}>
-                <option selected value="body">
-                  Body
-                </option>
-                <option value="heading-1">Heading 1</option>
-                <option value="heading-2">Heading 2</option>
-                <option value="special">Special</option>
-              </Select>
-              <IconButton
-                icon={<MdDelete />}
-                name="remove"
-                onClick={() => remove(index)}
-              />
-            </InputGroup>
+              <InputGroup>
+                <Input
+                  ref={register()}
+                  w="40%"
+                  name={`font_choices[${index}].font`}
+                  defaultValue={item.font}
+                  type="text"
+                  placeholder="Add font"
+                />
+                <Spacer />
+                <Select
+                  ref={register()}
+                  w="40%"
+                  name={`font_choices[${index}].function`}
+                >
+                  <option selected value="body">
+                    Body
+                  </option>
+                  <option value="heading-1">Heading 1</option>
+                  <option value="heading-2">Heading 2</option>
+                  <option value="special">Special</option>
+                </Select>
+                <Spacer />
+                <IconButton
+                  icon={<MdDelete />}
+                  name="remove"
+                  onClick={() => remove(index)}
+                />
+              </InputGroup>
+            </Flex>
           </li>
         ))}
       </UnorderedList>
@@ -65,7 +77,7 @@ const FontChoices = () => {
       <Button
         type="button"
         onClick={() => {
-          append({_key: uuid(), font: 'add font', function: 'body'});
+          append({_key: uuid(), font: '', function: 'body'});
         }}
       >
         Add another font
