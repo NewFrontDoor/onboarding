@@ -42,5 +42,6 @@
   "devDependencies": {
     "@hookform/devtools": "^2.2.1",
     "prop-types": "^15.7.2"
-  }
+  },
+  "xo": false
 }

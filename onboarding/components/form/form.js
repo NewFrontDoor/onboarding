@@ -10,6 +10,57 @@ import {SlideFade, Accordion, AccordionItem, Grid} from '@chakra-ui/react';
 import {DevTool} from '@hookform/devtools';
 import {useMutation, useQuery} from 'react-query';
 import slugify from '@sindresorhus/slugify';
+import {useRouter} from 'next/router';
+import {uuid} from '@sanity/uuid';
+
+const placeholderData = {
+  _id: uuid(),
+  _type: 'project'
+};
+
+function useProject() {
+  const router = useRouter();
+  const {project} = router.query;
+
+  const enabled = typeof project !== 'undefined';
+
+  const form = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      ...placeholderData
+    }
+  });
+
+  const query = useQuery(
+    ['project', project],
+    () => {
+      // TODO: Review placeholderData when useQuery is disabled
+      // https://github.com/tannerlinsley/react-query/issues/1749
+      if (project === 'new') {
+        return placeholderData;
+      }
+
+      return fetch(`/api/project/${project}`).then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+      });
+    },
+    {
+      enabled,
+      onSuccess(data) {
+        // Update form data on success
+        form.reset(data);
+      },
+      placeholderData,
+      refetchOnWindowFocus: false
+    }
+  );
+
+  return {form, query};
+}
 
 function getUser() {
   return fetch('/api/me').then((response) => {
@@ -40,18 +91,13 @@ async function submitForm(sanityData, data, user) {
   });
 }
 
-const FormComponent = ({sanityData}) => {
+const FormComponent = () => {
   const user = useQuery('user', getUser);
-  const methods = useForm({
-    mode: 'onBlur',
-    defaultValues: {
-      ...sanityData
-    }
-  });
+  const {form, query} = useProject();
 
-  const {reset, formState, handleSubmit, control} = methods;
+  const {reset, formState, handleSubmit, control} = form;
 
-  const mutation = useMutation((data) => submitForm(sanityData, data, user), {
+  const mutation = useMutation((data) => submitForm(query.data, data, user), {
     onError: (error, variables, context) => {
       console.log(error);
       console.log(variables);
@@ -73,35 +119,35 @@ const FormComponent = ({sanityData}) => {
   });
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...form}>
       <form onSubmit={onSubmit}>
         <Grid templateColumns="0.5fr 2.5fr 1fr" gap={6}>
           <div />
-          <SlideFade in={sanityData} offsetY="-100px">
+          <SlideFade in={query.data} offsetY="-100px">
             <Accordion allowMultiple defaultIndex={[0, 1, 2, 3, 4]}>
               <AccordionItem>
                 <CoreDetails />
               </AccordionItem>
               <AccordionItem>
-                <AdminDetails project={sanityData._id} site="example.com" />
+                <AdminDetails project={query.data?._id} site="example.com" />
               </AccordionItem>
               <AccordionItem>
                 <Purpose />
               </AccordionItem>
               <AccordionItem>
-                <DesignDetails project={sanityData._id} />
+                <DesignDetails project={query.data?._id} />
               </AccordionItem>
               <AccordionItem>
-                <ContentDetails project={sanityData._id} />
+                <ContentDetails project={query.data?._id} />
               </AccordionItem>
             </Accordion>
           </SlideFade>
           <ControlBox
             isLoading={mutation.isLoading}
-            isOwner={sanityData.isOwner}
+            isOwner={query.data?.isOwner}
             formState={formState}
             reset={reset}
-            initialData={sanityData}
+            initialData={query.data}
           />
         </Grid>
       </form>
