@@ -5,48 +5,81 @@ import ProjectPreview from '../components/project-preview.js';
 import {menuQuery} from '../lib/queries.js';
 import {fetchQuery} from '../lib/sanity.js';
 import {findOrCreate} from '../lib/user.js';
-import {Grid, Text, Heading} from '@chakra-ui/react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  Grid,
+  Text,
+  Heading
+} from '@chakra-ui/react';
 import Link from 'next/link';
 
 const Account = ({userData, menuData}) => {
+  const {isOpen, onOpen, onClose} = useDisclosure();
+
   return (
-    <Layout menuData={menuData}>
-      <Heading as="h1" size="2xl">
-        My Account
-      </Heading>
-      <Heading as="h2" size="xl">
-        Projects I own
-      </Heading>
-      <Link href="/form?project=new">Start a new project now</Link>
-      {userData.owner ? (
-        <Grid templateColumns="repeat(5, 1fr)" gap={6}>
-          {userData.owner.map((project) => (
-            <ProjectPreview key={project.id} project={project} />
-          ))}
-        </Grid>
-      ) : (
-        <Text>
-          You don‘t own any projects.{' '}
-          <Link href="/form?project=new">Start one now.</Link>
-        </Text>
-      )}
-      <Heading as="h2" size="xl">
-        Projects I contribute to
-      </Heading>
-      {userData.contributor ? (
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          {userData.contributor.map((project) => (
-            <ProjectPreview key={project.id} project={project} />
-          ))}
-        </Grid>
-      ) : (
-        <Text>
-          You aren‘t listed as a contributor on any projects yet. Ask the
-          project owner to add your email to the list of contributors to get
-          going.
-        </Text>
-      )}
-    </Layout>
+    <>
+      <Layout menuData={menuData}>
+        <Heading as="h1" size="2xl">
+          My Account
+        </Heading>
+        <Heading as="h2" size="xl">
+          Projects I own
+        </Heading>
+        {userData.owner ? (
+          <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+            {userData.owner.map((project) => (
+              <ProjectPreview key={project.id} project={project} />
+            ))}
+          </Grid>
+        ) : (
+          <div>
+            <Text>You don‘t own any projects.</Text>
+          </div>
+        )}
+        <Link href="/form?project=new">Start a new project now</Link>
+        <Heading as="h2" size="xl">
+          Projects I contribute to
+        </Heading>
+        {userData.contributor ? (
+          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+            {userData.contributor.map((project) => (
+              <ProjectPreview key={project.id} project={project} />
+            ))}
+          </Grid>
+        ) : (
+          <Text>
+            You aren‘t listed as a contributor on any projects yet. Ask the
+            project owner to add your email to the list of contributors to get
+            going.
+          </Text>
+        )}
+      </Layout>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>This is the body text</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

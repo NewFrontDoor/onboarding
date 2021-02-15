@@ -5,20 +5,31 @@ import PropTypes from 'prop-types';
 import Form from '../components/form/form.js';
 import {useQuery} from 'react-query';
 import {useRouter} from 'next/router';
+import {uuid} from '@sanity/uuid';
 
-function useProject() {
+function useProject(user) {
   const router = useRouter();
   const {project} = router.query;
 
-  return useQuery(['project', project], () => {
-    return fetch(`/api/project/${project}`).then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+  return useQuery(
+    ['project', project],
+    () => {
+      return fetch(`/api/project/${project}`).then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
 
-      return response.json();
-    });
-  });
+        return response.json();
+      });
+    },
+    {
+      enabled: project !== 'new',
+      placeholderData: {
+        _id: uuid(),
+        _type: 'project'
+      }
+    }
+  );
 }
 
 const FormPage = (props) => {

@@ -8,15 +8,21 @@ import Purpose from './purpose.js';
 import ControlBox from './control-box.js';
 import {SlideFade, Accordion, AccordionItem, Grid} from '@chakra-ui/react';
 import {DevTool} from '@hookform/devtools';
-import {useMutation} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import slugify from '@sindresorhus/slugify';
 
-async function submitForm(sanityData, data, reset) {
+function getUser() {
+  return fetch('/api/me').then((response) => {
+    if (response.ok) return response.json();
+  });
+}
+
+async function submitForm(sanityData, data, user) {
   const merged = {
-    slug: sanityData.slug || slugify(data.ministry),
-    owner: sanityData.owner,
+    slug: sanityData.slug || {_type: 'slug', current: slugify(data.ministry)},
+    owner: sanityData.owner || user.data.email,
     _id: sanityData._id,
-    _createdAt: sanityData._createdAt,
+    _createdAt: sanityData?._createdAt,
     _type: sanityData._type,
     authorisedAccounts: sanityData.authorisedAccounts,
     ...data,
@@ -35,6 +41,7 @@ async function submitForm(sanityData, data, reset) {
 }
 
 const FormComponent = ({sanityData}) => {
+  const user = useQuery('user', getUser);
   const methods = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -44,7 +51,7 @@ const FormComponent = ({sanityData}) => {
 
   const {reset, formState, handleSubmit, control} = methods;
 
-  const mutation = useMutation((data) => submitForm(sanityData, data), {
+  const mutation = useMutation((data) => submitForm(sanityData, data, user), {
     onError: (error, variables, context) => {
       console.log(error);
       console.log(variables);
